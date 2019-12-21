@@ -1,4 +1,5 @@
 <?php
+include("dbconn.php");
 $seat_info = $_POST['seat_info'];
 $match_num = $_POST['match_num'];
 ?>
@@ -7,7 +8,8 @@ $match_num = $_POST['match_num'];
   <head>
     <meta charset="utf-8">
     <title>업로드 처리 페이지</title>
-    <link href="https://fonts.googleapis.com/css?family=Bangers|Black+Han+Sans|Jua|Staatliches&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans|Jua|Lilita+One|Nanum+Gothic|Noto+Sans+KR|Oswald&display=swap" rel="stylesheet">
+
     <style type="text/css">
       form  {
         width:300px;
@@ -22,11 +24,52 @@ $match_num = $_POST['match_num'];
         .font_center { text-align: center; }
         .font_jua {font-family: 'Jua';}
         .font_han {font-family: 'Black Han Sans';}
+        .div_set { background-color:black; padding:5px; }
+
+ button{
+  background:#617be3;
+  color:#fff;
+  border:none;
+  position:relative;
+  text-align:center;
+  font-family: 'Jua';
+  height:50px;
+  font-size:2.1em;
+  padding:0.3em;
+  cursor:pointer;
+  transition:800ms ease all;
+  outline:none;
+}
+button:hover{
+  background:#fff;
+  color:#617be3;
+}
+button:before,button:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #617be3;
+  transition:400ms ease all;
+}
+button:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+button:hover:before,button:hover:after{
+  width:100%;
+  transition:800ms ease all;
+}
+
 
         p#round_font {font-size : 300%;  font-weight: bold ; font-family: 'Bangers', cursive;}
 
         body{
-          background-image : url('img/background/background10.jpg');
+          background-image : url('img/background/img2.jpg');
           background-size : 100% ;
         }
     </style>
@@ -34,20 +77,8 @@ $match_num = $_POST['match_num'];
   <body>
 
     <?php
-      session_start();
       if ($_SESSION['user_id'] == null) { //로그인 하지 않고 접근했을때 처리 함수 (세션 검사), 로그인 되었으면 서버 접속
           print "<script> alert('로그인 되지 않았습니다.'); location.replace('./first_page.php'); </script>";
-      }
-
-      $mysql_host = "localhost";
-      $mysql_user = "root";
-      $mysql_password = "phpbeta";
-      $mysql_db = "project_test";
-
-      $conn = mysqli_connect($mysql_host, $mysql_user, $mysql_password, $mysql_db);
-
-      if (!$conn) {
-          die("연결 실패: " . mysqli_connect_error);
       }
 
       $sql = "SELECT * FROM match_info
@@ -57,8 +88,9 @@ $match_num = $_POST['match_num'];
       $result = mysqli_query($conn, $sql);
       $row = mysqli_fetch_array($result);
 
-      echo "<p class='font_small font_han font_color'>TICKET CLUB 티켓팅</p>";
-      echo "<p class='font_small font_color'>".$row['match_team_home']." vs ".$row['match_team_away']." ".$row['match_date']." | ".$row['sta_name']."</p>";
+      echo "<div class='font_small font_han font_color div_set'>TICKET CLUB 티켓팅</div>";
+      echo "<div class='font_small font_color div_set'>".$row['match_team_home']." vs ".$row['match_team_away']." ".$row['match_date']." | ".$row['sta_name']."</div>";
+
 
       if ($seat_info == "normal") {    // 일반석 예매인 경우 서버업로드 처리부분
         $user_id = $_SESSION['user_id']; // 예약유저 아이디
@@ -76,9 +108,19 @@ $match_num = $_POST['match_num'];
         $update = mysqli_query($conn, "UPDATE stadium set reserved_seat_normal='$update_reserved_num' where sta_num = '$stadium_num';");
         //스타디움 번호를 통해 예약된 좌석수 업데이트
         if ($upload) {
-            echo "예약완료.</br>";
-            echo "<input type='button' value='나가기' onClick=window.close()>";
-        }
+  echo "<center>";
+          echo"<br>";
+          echo"<br>";
+
+          echo "<div class='font_big font_jua font_color'>예약완료.</div>";
+          echo"</center>";
+
+      echo"<br>";
+      echo"<br>";
+
+      echo "<center>";
+      echo "<button onClick=window.close()>나가기</button>";
+      echo "</center>";        }
     }
 
     elseif ($seat_info == "vip") {     // vip석 예매인 경우 서버업로드 처리부분
@@ -100,11 +142,21 @@ $match_num = $_POST['match_num'];
         $update = mysqli_query($conn, "UPDATE stadium set reserved_seat_vip='$update_reserved_num' where sta_num = '$stadium_num';");
         //스타디움 번호를 통해 예약된 좌석수 업데이트
         if ($upload && $update) {
-          echo "예약완료.($arr_sel_seat[$i])</br>";
+          echo "<center>";
+          echo"<br>";
+          echo"<br>";
+
+          echo "<div class='font_big font_jua font_color'>예약완료.($arr_sel_seat[$i])</br></div>";
+          echo"</center>";
+
         }
       }
-      echo "<input type='button' value='나가기' onClick=window.close()>";
-    }
+      echo"<br>";
+      echo"<br>";
+
+      echo "<center>";
+      echo "<button onClick=window.close()>나가기</button>";
+      echo "</center>";    }
     ?>
 
   </body>

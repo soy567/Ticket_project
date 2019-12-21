@@ -48,13 +48,13 @@
 		<div class="font_noto"><label for="Email">이메일 주소: </label></div>
     <div class="font_noto"><input  id="Email" type="email"  name="Email"></div>
     <div class="font_noto">성별:
-		<input id="gender" type="checkbox" checked="checked" name="gender" class="font_noto" value="남성">
+		<input id="gender" type="radio" checked="checked" name="gender" class="font_noto" value="남성">
 		<label for="gender">남성</label>
-    <input id="gender" type="checkbox" name="gender" class="font_noto" value="여성">
+    <input id="gender" type="radio" name="gender" class="font_noto" value="여성">
 		<label for="gender">여성</label></div>
-		<div><input type="submit" value="회원가입" class="font_noto" style="margin-right:20px;">
+		<div><input type="submit" value="회원가입" class="font_noto font_color"  style="margin-right:20px; border: none;  background-color:#393e46;">
 			<!--  로그인 페이지로 이동 -->
-		<input type="button" name="return" value="돌아가기"  class="font_noto" onClick="location.href='login.php'"></div>
+		<input type="button" name="return" value="돌아가기"  class="font_noto font_color" style=" border: none;  background-color:#393e46;" onClick="location.href='login.php'"></div>
 	</form>
 	</div>
 </body>

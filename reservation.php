@@ -1,11 +1,12 @@
 <?php
+  include("dbconn.php");
   $match_num = $_POST['match_num'];
 ?>
 
 <html>
   <head>
-    <link href="https://fonts.googleapis.com/css?family=Bangers|Black+Han+Sans|Jua|Staatliches&display=swap" rel="stylesheet">
-    <style type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Bangers|Black+Han+Sans|Jua|Staatliches&display=swap" rel="stylesheet">
+      <style type="text/css">
 	     form {
 		     width:300px;
 		     margin: 0 auto;
@@ -18,6 +19,87 @@
         .font_center { text-align: center; }
         .font_jua {font-family: 'Jua';}
         .font_han {font-family: 'Black Han Sans';}
+
+        .bton{
+  background:#617be3;
+  color:#fff;
+  border:none;
+  position:absolute;
+  text-align:center;
+  font-family: 'Jua';
+  height:32.5px;
+  font-size:1.8em;
+  padding:0.3em;
+  cursor:pointer;
+  transition:800ms ease all;
+  outline:none;
+}
+.bton:hover{
+  background:#fff;
+  color:#617be3;
+}
+.bton:before,.bton:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #617be3;
+  transition:400ms ease all;
+}
+.bton:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+.bton:hover:before,.bton:hover:after{
+  width:100%;
+  transition:800ms ease all;
+}
+
+
+
+  button{
+  background:#617be3;
+  color:#fff;
+  border:none;
+  position:relative;
+  text-align:center;
+  font-family: 'Jua';
+  height:50px;
+  font-size:2.1em;
+  padding:0.3em;
+  cursor:pointer;
+  transition:800ms ease all;
+  outline:none;
+}
+button:hover{
+  background:#fff;
+  color:#617be3;
+}
+button:before,button:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #617be3;
+  transition:400ms ease all;
+}
+button:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+button:hover:before,button:hover:after{
+  width:100%;
+  transition:800ms ease all;
+}
+
 
         p#round_font {font-size : 300%;  font-weight: bold ; font-family: 'Bangers', cursive;}
 
@@ -42,20 +124,8 @@
  <!-- DB에서 데이터 불러오고 반복문 이용해 경기 내용 테이블 출력 (자료 없을때 까지) -->
   <body>
     <?php
-     session_start();
      if ($_SESSION['user_id'] == null) { //로그인 하지 않고 접근했을때 처리 함수 (세션 검사)
          print "<script language=javascript> alert('로그인 되지 않았습니다.'); location.replace('./first_page.php'); </script>";
-     }
-
-     $mysql_host = "localhost";
-     $mysql_user = "root";
-     $mysql_password = "phpbeta";
-     $mysql_db = "project_test";
-
-     $conn = mysqli_connect($mysql_host, $mysql_user, $mysql_password, $mysql_db);
-
-     if (!$conn) {
-         die("연결 실패: " . mysqli_connect_error);
      }
 
      $sql = "SELECT * FROM match_info WHERE match_num = $match_num";
@@ -69,27 +139,37 @@
     <!-- 아이디와 로그아웃 버튼 출력-->
     <table align="right" height="5"  style="margin-top:1%">
      <tr>
+     <!-- 폰트색상을 흰색과 jua 크기는 크게 설정-->
         <td class="font_color font_big font_normal font_jua">
      <?php
-          echo "아이디: ".$_SESSION['user_id'];
+          echo "아이디: ".$_SESSION['user_id']; // 현재 로그인된 아이디 상태를 보여줌.
       ?>
       </td>
       <td>
-      <input type="button" style="margin-right:10px;"  class="font_han font_big"  name="logout" onclick="location.href = 'logout.php'" value="로그아웃">
+      <!-- 로그아웃 버튼의 폰트크기는 크게, 폰트는 han, 클릭시 로그아웃 동작이 작동되도록 설정-->
+      <button style="margin-right:10px;" class="font_jua font_big" onclick="location.href = 'page_user_info.php'" >마이페이지</button>
+      <button style="margin-right:10px;"  class="font_han font_big" onclick="location.href = 'logout.php'">로그아웃</button>
       </td>
       </tr>
      </table>
 
      <!-- 라인업 출력 -->
-       <p height="10" style="margin-left:700px;"  class="font_bigger font_han"> 라인업 </p>
+     <center>
+       <p height="10"   class="font_bigger font_han"> 라인업 </p>
+     </center>
        <p style= "text-align: center;">
        <img src="<?php echo $row['match_lineup_home'];?>" width="545"/>
        <img src="<?php echo $row['match_lineup_away'];?>" width="545" style=" margin-left: 70px;  margin-right: auto;"/></p>
     <!-- 좌석선택과 돌아가기 버튼 출력-->
+
        <form action = ' ' method="post" name="match_num">
-         <input type="button" name="return" value="돌아가기"    class="font_big font_jua" onClick="location.href='main_page.php'">
-         <input type="hidden" name="match_num" value="<?php echo $_POST['match_num']; ?>">
-         <input type="submit" value="좌석선택" style="margin-left:20px;"  class="font_big font_jua" onClick="seat_check()">
+       <input type="hidden" name="match_num" value="<?php echo $_POST['match_num']; ?>">
+       <!--좌석선택의 폰트는 jua,크기는  크게 클릭시 좌석선택창으로 이동하도록 설정-->
+       <button class="font_big font_jua" style="margin-left:30px" onClick="seat_check()">좌석선택</button>
+       <!--돌아가기 버튼 작동설정-->
+       <a class=" font_jua bton" style="margin-left:20px" onclick="location.href='main_page.php'">돌아가기 </a>
+
        </form>
+
     </body>
 </html>

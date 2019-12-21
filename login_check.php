@@ -1,9 +1,15 @@
+<?php
+  include('dbconn.php');
+  $id = $_POST['id'];
+  $pw = $_POST["pw"];
+?>
+
 <html>
   <head>
 
   <!-- 구글 정식 글꼴타입 하이퍼링크로 따옴-->
   <link href="https://fonts.googleapis.com/css?family=Bangers|Black+Han+Sans|Jua|Staatliches&display=swap" rel="stylesheet">
-  <style type="text/css">
+    <style type="text/css">
 
  		  .font_big { font-size: 2em; }
        .font_normal {font-size: 1.5em;}
@@ -14,6 +20,52 @@
        .font_han {font-family: 'Black Han Sans';}
 
        p#round_font {font-size : 300%;  font-weight: bold ; font-family: 'Bangers', cursive;}
+
+       body{
+          background-image : url('img/background/img2.jpg');
+          background-size : 200% ;
+        }
+
+        button{
+  background:#617be3;
+  color:#fff;
+  border:none;
+  position:relative;
+  text-align:center;
+  font-family: 'Jua';
+  height:50px;
+  font-size:2.3em;
+  padding:0em;
+  cursor:pointer;
+  transition:800ms ease all;
+  outline:none;
+}
+button:hover{
+  background:#fff;
+  color:#617be3;
+}
+button:before,button:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #617be3;
+  transition:400ms ease all;
+}
+button:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+button:hover:before,button:hover:after{
+  width:100%;
+  transition:800ms ease all;
+}
+
+
     </style>
 
   <script language="JavaScript">
@@ -24,14 +76,6 @@
   </script>
 <body>
   <?php
-    session_start();
-    $id = $_POST['id'];
-    $pw = $_POST['pw'];
-    $conn = mysqli_connect('localhost', 'root', 'phpbeta', 'project_test');
-
-    if (!$conn) {
-        die("연결 실패: " . mysqli_connect_error());
-    }
 
    $check = "SELECT * FROM user WHERE user_id='$id'";
    $result = $conn->query($check);
@@ -49,12 +93,38 @@
           echo "세션 저장 실패";
       }
   } else {
-      echo "아이디나 패스워드가 틀렸습니다.";
+      echo "<center>";
+      echo "<br>";
+      echo "<br>";
+      echo "<br>";
+      echo "<br>";
+      echo "<br>";
+      echo "<br>";
+
+      echo "<br>";
+
+      echo "<div class= 'font_big font_color font_jua'>아이디나 패스워드가 틀렸습니다.</div>";
+      echo "</center>";
+
   }
   } else {
-      echo "아이디나 패스워드가 틀렸습니다.";
+    echo "<center>";
+    echo "<br>";
+    echo "<br>";
+    echo "<br>";
+    echo "<br>";
+    echo "<br>";
+    echo "<br>";
+
+    echo "<div class= 'font_big font_color font_jua'>아이디나 패스워드가 틀렸습니다.</div>";
+    echo "</center>";
   }
   ?>
-  <input type='button'  value='뒤로가기' class='font_big font_jua'  style='background-color:white; margin-left:auto; margin-right:auto;display:block;margin-top:22%;margin-bottom:0%' onclick= "location.href='login.php'" >
+  <br>
+  <br>
+  <br>
+  <center>
+  <button class="font_big font_jua" onclick= "location.href='login.php'">뒤로가기</button>
+  </center>
   </body>
 </html>
